@@ -6,7 +6,20 @@
 #include "third_party/nugget/psyqo/gpu.hh"
 #include "third_party/nugget/psyqo/scene.hh"
 
-namespace {
+/*
+    TODO take what I learned from my lamejam44 attempt and
+         draw lines, cubes, etc. 
+
+         Try to understand the fundamentals of 3D graphics
+         tailored to PSX
+
+    NEXT TASK: Draw a moving line
+
+    NOTE My eventual goal is to 'demake' Rocket League to  
+         just about any console I can get an SDK for. PSX/P/2 are just
+         all consoles that have a special place in my heart.
+*/
+
 
 // A PSYQo software needs to declare one \`Application\` object.
 // This is the one we're going to do for our hello world.
@@ -31,11 +44,12 @@ class HelloScene final : public psyqo::Scene {
 };
 
 // We're instantiating the two objects above right now.
+// NOTE these might not need to be static like I was doing before lol
 Hello hello;
 HelloScene helloScene;
 
-}  // namespace
 
+// Boilerplate
 void Hello::prepare() {
     psyqo::GPU::Configuration config;
     config.set(psyqo::GPU::Resolution::W320)
@@ -51,22 +65,7 @@ void Hello::createScene() {
 }
 
 void HelloScene::frame() {
-    if (m_anim == 0) {
-        m_direction = true;
-    } else if (m_anim == 255) {
-        m_direction = false;
-    }
-    psyqo::Color bg{{.r = 0, .g = 64, .b = 91}};
-    bg.r = m_anim;
-    hello.gpu().clear(bg);
-    if (m_direction) {
-        m_anim++;
-    } else {
-        m_anim--;
-    }
-
-    psyqo::Color c = {{.r = 255, .g = 255, .b = uint8_t(255 - m_anim)}};
-    hello.m_font.print(hello.gpu(), "Hello World!", {{.x = 16, .y = 32}}, c);
+    // TODO 
 }
 
 int main() { return hello.run(); }
