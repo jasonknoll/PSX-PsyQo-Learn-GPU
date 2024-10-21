@@ -23,7 +23,7 @@
 
 // A PSYQo software needs to declare one \`Application\` object.
 // This is the one we're going to do for our hello world.
-class Hello final : public psyqo::Application {
+class LearnGPU final : public psyqo::Application {
 
     void prepare() override;
     void createScene() override;
@@ -33,7 +33,7 @@ class Hello final : public psyqo::Application {
 };
 
 
-class HelloScene final : public psyqo::Scene {
+class GfxScene final : public psyqo::Scene {
     void frame() override;
 
     // TODO do shit
@@ -41,12 +41,12 @@ class HelloScene final : public psyqo::Scene {
 
 // We're instantiating the two objects above right now.
 // NOTE these might not need to be static like I was doing before lol
-Hello hello;
-HelloScene helloScene;
+LearnGPU learn_gpu;
+GfxScene gfx_scene;
 
 
 // Boilerplate
-void Hello::prepare() {
+void LearnGPU::prepare() {
     psyqo::GPU::Configuration config;
     config.set(psyqo::GPU::Resolution::W320)
         .set(psyqo::GPU::VideoMode::AUTO)
@@ -55,13 +55,13 @@ void Hello::prepare() {
     gpu().initialize(config);
 }
 
-void Hello::createScene() {
+void LearnGPU::createScene() {
     m_font.uploadSystemFont(gpu());
-    pushScene(&helloScene);
+    pushScene(&gfx_scene);
 }
 
-void HelloScene::frame() {
+void GfxScene::frame() {
     // TODO 
 }
 
-int main() { return hello.run(); }
+int main() { return learn_gpu.run(); }
