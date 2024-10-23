@@ -30,6 +30,9 @@ class LearnGPU final : public psyqo::Application {
 
   public:
     psyqo::Font<> m_font;
+
+    // Background color 
+    
 };
 
 
@@ -37,12 +40,17 @@ class GfxScene final : public psyqo::Scene {
     void frame() override;
 
     // TODO do shit
+    psyqo::Color bg {{.r = 0, .g = 64, .b = 91}};
+
+    // white I think
+    psyqo::Color text_color {{.r = 255, .g = 255, .b = 255}};
 };
 
 // We're instantiating the two objects above right now.
 // NOTE these might not need to be static like I was doing before lol
 LearnGPU learn_gpu;
 GfxScene gfx_scene;
+
 
 
 // Boilerplate
@@ -61,7 +69,11 @@ void LearnGPU::createScene() {
 }
 
 void GfxScene::frame() {
-    // TODO 
+    // TODO draw shit
+
+    learn_gpu.gpu().clear(this->bg);
+
+    learn_gpu.m_font.print(learn_gpu.gpu(), "Learning how to use the GPU in PsyQo!", {{.x = 16, .y = 32}}, this->text_color);
 }
 
 int main() { return learn_gpu.run(); }
