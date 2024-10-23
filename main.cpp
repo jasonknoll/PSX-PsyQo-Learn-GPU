@@ -69,7 +69,10 @@ void LearnGPU::createScene() {
 }
 
 void GfxScene::frame() {
-    // TODO draw shit
+    // TODO draw a line
+    // TODO draw a square
+    // TODO move, rotate and transform the shapes
+    // TODO attempt a the cube 
 
     learn_gpu.gpu().clear(this->bg);
 
