@@ -32,9 +32,6 @@ class LearnGPU final : public psyqo::Application {
 
   public:
     psyqo::Font<> m_font;
-
-    // Background color 
-    
 };
 
 
@@ -50,14 +47,16 @@ class GfxScene final : public psyqo::Scene {
     psyqo::Color line_color {{.r = 0, .g = 255, .b = 160}};
 
     psyqo::Prim::Line line;
+
+    public: 
+        void prepare(); // config colors and reduce calls per cycle
+    
 };
 
 // We're instantiating the two objects above right now.
 // NOTE these might not need to be static like I was doing before lol
 LearnGPU learn_gpu;
 GfxScene gfx_scene;
-
-
 
 // Boilerplate
 void LearnGPU::prepare() {
@@ -72,6 +71,8 @@ void LearnGPU::prepare() {
 void LearnGPU::createScene() {
     m_font.uploadSystemFont(gpu());
     pushScene(&gfx_scene);
+
+    gfx_scene.prepare();
 }
 
 void GfxScene::frame() {
@@ -84,8 +85,6 @@ void GfxScene::frame() {
 
     learn_gpu.m_font.print(learn_gpu.gpu(), "Learning how to use the GPU in PsyQo!", {{.x = 16, .y = 32}}, this->text_color);
 
-    line.setColor(this->line_color); 
-
     // diagnal line?
     line.pointA.x = 50;
     line.pointA.y = 50;
@@ -94,6 +93,10 @@ void GfxScene::frame() {
     line.pointB.y = 300;
 
     learn_gpu.gpu().sendPrimitive(line);
+}
+
+void GfxScene::prepare() {
+    this->line.setColor(this->line_color);
 }
 
 int main() { return learn_gpu.run(); }
