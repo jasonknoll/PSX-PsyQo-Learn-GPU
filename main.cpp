@@ -80,7 +80,7 @@ void LearnGPU::createScene() {
 }
 
 void GfxScene::frame() {
-    // TODO draw a square
+    // TODO draw a triangle
     // TODO move, rotate and transform the shapes
     // TODO attempt a the cube 
 
