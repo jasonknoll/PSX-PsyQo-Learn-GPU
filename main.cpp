@@ -1,10 +1,12 @@
 #include <stdint.h>
 
+#include "psyqo/primitives/common.hh"
 #include "third_party/nugget/common/syscalls/syscalls.h"
 #include "third_party/nugget/psyqo/application.hh"
 #include "third_party/nugget/psyqo/font.hh"
 #include "third_party/nugget/psyqo/gpu.hh"
 #include "third_party/nugget/psyqo/scene.hh"
+#include "psyqo/primitives/lines.hh"
 
 /*
     TODO take what I learned from my lamejam44 attempt and
@@ -44,6 +46,10 @@ class GfxScene final : public psyqo::Scene {
 
     // white I think
     psyqo::Color text_color {{.r = 255, .g = 255, .b = 255}};
+
+    psyqo::Color line_color {{.r = 0, .g = 255, .b = 160}};
+
+    psyqo::Prim::Line line;
 };
 
 // We're instantiating the two objects above right now.
@@ -77,6 +83,17 @@ void GfxScene::frame() {
     learn_gpu.gpu().clear(this->bg);
 
     learn_gpu.m_font.print(learn_gpu.gpu(), "Learning how to use the GPU in PsyQo!", {{.x = 16, .y = 32}}, this->text_color);
+
+    line.setColor(this->line_color); 
+
+    // diagnal line?
+    line.pointA.x = 50;
+    line.pointA.y = 50;
+
+    line.pointB.x = 300;
+    line.pointB.y = 300;
+
+    learn_gpu.gpu().sendPrimitive(line);
 }
 
 int main() { return learn_gpu.run(); }
