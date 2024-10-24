@@ -1,12 +1,14 @@
 #include <stdint.h>
 
 #include "psyqo/primitives/common.hh"
+#include "psyqo/primitives/lines.hh"
+#include "psyqo/primitives/rectangles.hh"
 #include "third_party/nugget/common/syscalls/syscalls.h"
 #include "third_party/nugget/psyqo/application.hh"
 #include "third_party/nugget/psyqo/font.hh"
 #include "third_party/nugget/psyqo/gpu.hh"
 #include "third_party/nugget/psyqo/scene.hh"
-#include "psyqo/primitives/lines.hh"
+
 
 /*
     TODO take what I learned from my lamejam44 attempt and
@@ -41,15 +43,17 @@ class GfxScene final : public psyqo::Scene {
     // TODO do shit
     psyqo::Color bg {{.r = 0, .g = 64, .b = 91}};
 
-    // white I think
+    // white text I think
     psyqo::Color text_color {{.r = 255, .g = 255, .b = 255}};
 
     psyqo::Color line_color {{.r = 0, .g = 255, .b = 160}};
-
     psyqo::Prim::Line line;
 
+    psyqo::Color rect_color {{.r = 255, .g = 0, .b = 255}};
+    psyqo::Prim::Rectangle rect;
+
     public: 
-        void prepare(); // config colors and reduce calls per cycle
+        void prepare(); // config to reduce calls per cycle (maybe?)
     
 };
 
@@ -76,7 +80,6 @@ void LearnGPU::createScene() {
 }
 
 void GfxScene::frame() {
-    // TODO draw a line
     // TODO draw a square
     // TODO move, rotate and transform the shapes
     // TODO attempt a the cube 
@@ -93,10 +96,22 @@ void GfxScene::frame() {
     line.pointB.y = 300;
 
     learn_gpu.gpu().sendPrimitive(line);
+
+    // Quad
+
+    rect.position = {{.x = 200, .y = 230}};
+    rect.size = {{.w = 10, .h = 10}};
+
+    learn_gpu.gpu().sendPrimitive(rect);
 }
 
 void GfxScene::prepare() {
+    // Scene items to run once
+    // This might not be useful
+
+    // NOTE how to make useful for dynamic scenes? 
     this->line.setColor(this->line_color);
+    this->rect.setColor(this->rect_color);
 }
 
 int main() { return learn_gpu.run(); }
