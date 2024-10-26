@@ -3,6 +3,7 @@
 #include "psyqo/primitives/common.hh"
 #include "psyqo/primitives/lines.hh"
 #include "psyqo/primitives/rectangles.hh"
+#include "psyqo/primitives/triangles.hh"
 #include "third_party/nugget/common/syscalls/syscalls.h"
 #include "third_party/nugget/psyqo/application.hh"
 #include "third_party/nugget/psyqo/font.hh"
@@ -49,8 +50,10 @@ class GfxScene final : public psyqo::Scene {
     psyqo::Color line_color {{.r = 0, .g = 255, .b = 160}};
     psyqo::Prim::Line line;
 
-    psyqo::Color rect_color {{.r = 255, .g = 0, .b = 255}};
+    psyqo::Color rect_color {{.r = 150, .g = 0, .b = 255}};
     psyqo::Prim::Rectangle rect;
+
+    psyqo::Prim::Triangle tri;
 
     public: 
         void prepare(); // config to reduce calls per cycle (maybe?)
@@ -97,12 +100,25 @@ void GfxScene::frame() {
 
     learn_gpu.gpu().sendPrimitive(line);
 
-    // Quad
+    // Rectangle (diff from quad?)
 
-    rect.position = {{.x = 200, .y = 230}};
+    rect.position = {{.x = 200, .y = 200}};
     rect.size = {{.w = 10, .h = 10}};
 
     learn_gpu.gpu().sendPrimitive(rect);
+
+    // Triangle
+
+    tri.pointA.x = 320;
+    tri.pointA.y = 240;
+
+    tri.pointB.x = 320;
+    tri.pointB.y = 200;
+
+    tri.pointC.x = 300;
+    tri.pointC.y = 220;
+
+    learn_gpu.gpu().sendPrimitive(tri);
 }
 
 void GfxScene::prepare() {
@@ -112,6 +128,7 @@ void GfxScene::prepare() {
     // NOTE how to make useful for dynamic scenes? 
     this->line.setColor(this->line_color);
     this->rect.setColor(this->rect_color);
+    this->tri.setColor(this->line_color);
 }
 
 int main() { return learn_gpu.run(); }
